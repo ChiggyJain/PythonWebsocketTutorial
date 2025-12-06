@@ -17,7 +17,7 @@ async def handler(websocket):
     except Exception as e:
         print(f"[SERVER ERROR] {e}, ID: {id(websocket)}")
     finally:
-        print(f"🏁 [FINALLY] Cleanup. Close code: {websocket.close_code}, Reason: {websocket.close_reason}")
+        print(f"[FINALLY] Cleanup. Close code: {websocket.close_code}, Reason: {websocket.close_reason}")
         connected_clients.remove(websocket)
 
 
