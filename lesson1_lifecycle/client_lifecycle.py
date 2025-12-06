@@ -10,6 +10,7 @@ async def test_client():
         response = await ws.recv()
         print(f"📩 Received: {response}")
         print("👋 Closing connection…")
-        await ws.close()
+        # sending the close frame to websocket server with normal closure code 1000 and reason
+        await ws.close(code=1000, reason="Client task completed")
 
 asyncio.run(test_client())

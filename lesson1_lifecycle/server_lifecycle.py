@@ -21,12 +21,14 @@ async def handler(websocket):
         print(f"🔥 [SERVER ERROR] {e}")
 
     finally:
-        print("🏁 [FINALLY] Handler cleanup completed")
+        print(f"🏁 [FINALLY] Cleanup. Close code: {websocket.close_code}, Reason: {websocket.close_reason}")
 
 
 async def main():
     server = await websockets.serve(handler, "localhost", 9001)
-    print("Server started ws://localhost:9001")
+    print("Server started ws://localhost:9001 abnd waiting for clients...")
+    # keeping the server forever running
     await server.wait_closed()
+    print("Server fully stopped")
 
 asyncio.run(main())
