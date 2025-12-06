@@ -8,11 +8,11 @@ async def run():
     ws = await websockets.connect(f"ws://localhost:8000/ws?token={TOKEN}")
     await ws.send(json.dumps({"action": "join", "room": "Room1"}))
 
-    async def listener():
+    async def listener(ws):
         async for msg in ws:
             print("📩", msg)
 
-    async def sender():
+    async def sender(ws):
         while True:
             msg = await asyncio.to_thread(input, "(Teacher) Message/Announcement: ")
             if msg.startswith("ann:"):
