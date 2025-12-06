@@ -48,6 +48,16 @@ class PresenceService:
         async for key in self.redis.scan_iter("presence:room:*"):
             await self.redis.srem(key, username)
 
+    async def move_to_room(self, username: str, new_room: str):
+        """
+        Mark user as being in a new room presence-wise.
+        """
+        # Update room field in user hash
+        await self.redis.hset(f"presence:user:{username}", "room", new_room)
+        # For simplicity, add to new room set (not removing from previous here)
+        await self.redis.sadd(f"presence:room:{new_room}", username)
+
+        
     async def get_online_users(self) -> List[str]:
         members = await self.redis.smembers("presence:online_users")
         # Redis returns bytes, convert to str
