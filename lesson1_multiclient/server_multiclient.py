@@ -11,11 +11,11 @@ async def handler(websocket):
             print(f"From-Client-ID: {id(websocket)} and Received-Msg: {message}")
             await broadcast(f"To-Client-ID: {id(websocket)} and Sent-Msg: All-Good")
     except ConnectionClosedOK:
-        print("🔚 [CLOSED] Client closed connection normally (1000)")
+        print(f"[CLOSED] Client closed connection normally (1000), ID: {id(websocket)}")
     except ConnectionClosedError as e:
-        print(f"⚠️ [ERROR] Abnormal disconnect (1006). Details: {e}")
+        print(f"[ERROR] Abnormal disconnect (1006). Details: {e}, ID: {id(websocket)}")
     except Exception as e:
-        print(f"🔥 [SERVER ERROR] {e}")
+        print(f"[SERVER ERROR] {e}, ID: {id(websocket)}")
     finally:
         print(f"🏁 [FINALLY] Cleanup. Close code: {websocket.close_code}, Reason: {websocket.close_reason}")
         connected_clients.remove(websocket)
@@ -43,8 +43,8 @@ async def main():
         handler, "localhost", 9001, 
         # sending periodic pings to clients every 10 seconds, with a timeout of 5 seconds
         # data is sent as a ping control frame in websocket internally and end-user can see the messages on screen/console/logs etc 
-        ping_interval=10, 
-        ping_timeout=5
+        #ping_interval=10, 
+        #ping_timeout=5
     )
     print("Server started ws://localhost:9001 and waiting for client-connection...")
     # keeping the server forever running
