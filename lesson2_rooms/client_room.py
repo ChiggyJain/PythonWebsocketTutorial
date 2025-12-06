@@ -23,7 +23,7 @@ async def run():
             async for message in websocket:
                 print(f"Received message from server: {message}")
 
-        # sending messages
+        # sending a messages to respective room via websocket server
         async def sender(ws):
             while True:
                 msg = await asyncio.to_thread(input, "You: ")
@@ -33,6 +33,7 @@ async def run():
                     "message": msg
                 }))
 
+        # Run both tasks concurrently
         await asyncio.gather(
             listener(websocket),
             sender(websocket)
